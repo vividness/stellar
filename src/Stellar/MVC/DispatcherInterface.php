@@ -2,4 +2,4 @@
 
 namespace Stellar\MVC;
 
-
+interface DispatcherInterface {}
