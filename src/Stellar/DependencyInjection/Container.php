@@ -2,88 +2,114 @@
 
 namespace Stellar\DependencyInjection;
 
+use OutOfBoundsException,
+    InvalidArgumentException,
+    Stellar\DependencyInjection\ContainerInterface;
+
 /**
  * Dependency Injection Container
+ * @package Stellar\DependencyInjection
  */
 class Container implements ContainerInterface {
     
     /**
-     * Arbitary parameters needed by the container
-     *
+     * Use to store params needed by the container
      * @var array
      */
     protected $params = array();
 
     /**
-     *
+     * Use to store instances of dependent objects
+     * @var array
      */
-    protected $services = array();
+    protected $dependencies = array();
 
     /**
      * Container parameter setter
-     *
      * @param str $key
      * @param mixed $val
-     * @return void
+     * @return Stellar\DependencyInjection\Container
      */
-    public function setParam ($key, $val) {
-        /* NOTE: Should I try to prevent param overwriting? Let's see that later :) */
+    public function addParam ($key, $val) {
+        if (!is_string($key)) {
+            $msg = __METHOD__ . " called with an invalid key!";
+            throw new InvalidArgumentException($msg);
+        }
         $this->params[$key] = $val;
-        return true;
+        return $this;
     }
 
     /** 
      * Container parameter unsetter
-     * 
      * @param str $key
-     * @return void
+     * @return Stellar\DependencyInjection\Container
      */
-    public function unsetParam ($key) {
-        if (!is_string($key)) {
-            $msg = __METHOD__ . " called with an invalid parameter!"; 
-            throw new InvalidArgumentException($msg);
-        }
-
-        if (!isset($this->params[$key])) {
+    public function removeParam ($key) {
+        if (!is_string($key) || !isset($this->params[$key])) {
             $msg = __METHOD__ . " called with an invalid key!";
             throw new OutOfBoundsException($msg);
         }
 
         unset($this->params[$key]);
+        return $this;
     }
 
     /**
-     * Arbitary container param getter
-     *
+     * Returns param from the container
      * @param string $key
      * @return mixed
      */
     public function getParam ($key) {
-        if (!is_string($key)) {
-            $msg = __METHOD__ . " called with an invalid parameter!"; 
-            throw new InvalidArgumentException($msg);
-        }
-
-        if (!isset($this->params[$key])) {
+        if (!is_string($key) || !isset($this->params[$key])) {
             $msg = __METHOD__ . " called with an invalid key!";
             throw new OutOfBoundsException($msg);
         }
         
         return $this->params[$key];
     }
-
+    
     /**
-     * Quick and dirty
+     * Adds a dependency into the container and returns the instance of container 
+     * @param string $key
+     * @param callable $setupClosure
+     * @return Stellar\DipendencyInjection\Container
      */
-    public function getService ($service) {
-       return $this->objects[$service]->createService($this->params);
+    public function addDependency ($key, $setupClosure) {
+        if (!is_string($key) || !is_callable($setupClosure)) {
+            $msg = __METHOD__ . " called with an invalid parameter!";
+            throw new InvalidArgumentException($msg);
+        }
+
+        $this->dependencies[$key] = $setupClosure($this);
+        return $this;
     }
 
     /**
-     * $service should be a factory object that has to 
-     * have createService() method implemented
+     * Removes a dependency from the container and returns the container instance
+     * @param string $key
+     * @return Stellar\DependencyInjection\Container
      */
-    public function setService ($service) {
-        
+    public function removeDependency ($key) {
+         if (!is_string($key) || !isset($this->dependency[$key])) {
+            $msg = __METHOD__ . " called with an invalid key!";
+            throw new OutOfBoundsException($msg);
+        }
+
+        unset($this->services[$key]);
+        return $this;
+    }
+
+    /**
+     * Returns the instance of a service
+     * @param string $key
+     * @return Stellar\DependencyInjection\ServiceInterface
+     */
+    public function getDependency ($key) {
+        if (!is_string($key) || !isset($this->services[$key])) {
+            $msg = __METHOD__ . " called with an invalid key!";
+            throw new OutOfBoundsException($msg);
+        }
+
+        return $this->services[$name];
     }
 }
