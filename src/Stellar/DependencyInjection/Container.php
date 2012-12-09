@@ -3,12 +3,10 @@
 namespace Stellar\DependencyInjection;
 
 use OutOfBoundsException,
-    InvalidArgumentException,
-    Stellar\DependencyInjection\ContainerInterface;
+    InvalidArgumentException;
 
 /**
  * Dependency Injection Container
- * @package Stellar\DependencyInjection
  */
 class Container implements ContainerInterface {
     

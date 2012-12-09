@@ -3,7 +3,7 @@
 namespace Stellar\DependencyInjection
 
 /**
- * @package Stellar\DependencyInjection
+ *
  */
 interface ContainerInterface {
     /**
