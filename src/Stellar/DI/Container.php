@@ -1,6 +1,6 @@
 <?php 
 
-namespace Stellar\DependencyInjection;
+namespace Stellar\DI;
 
 use OutOfBoundsException,
     InvalidArgumentException;
@@ -26,7 +26,7 @@ class Container implements ContainerInterface {
      * Container parameter setter
      * @param str $key
      * @param mixed $val
-     * @return Stellar\DependencyInjection\Container
+     * @return ContainerInterface
      */
     public function addParam ($key, $val) {
         if (!is_string($key)) {
@@ -40,7 +40,7 @@ class Container implements ContainerInterface {
     /** 
      * Container parameter unsetter
      * @param str $key
-     * @return Stellar\DependencyInjection\Container
+     * @return ContainerInterface
      */
     public function removeParam ($key) {
         if (!is_string($key) || !isset($this->params[$key])) {
@@ -70,7 +70,7 @@ class Container implements ContainerInterface {
      * Adds a dependency into the container and returns the instance of container 
      * @param string $key
      * @param callable $setupClosure
-     * @return Stellar\DipendencyInjection\Container
+     * @return ContainerInterface
      */
     public function addDependency ($key, $setupClosure) {
         if (!is_string($key) || !is_callable($setupClosure)) {
@@ -85,7 +85,7 @@ class Container implements ContainerInterface {
     /**
      * Removes a dependency from the container and returns the container instance
      * @param string $key
-     * @return Stellar\DependencyInjection\Container
+     * @return ContainerInterface
      */
     public function removeDependency ($key) {
          if (!is_string($key) || !isset($this->dependency[$key])) {
@@ -100,7 +100,7 @@ class Container implements ContainerInterface {
     /**
      * Returns the instance of a service
      * @param string $key
-     * @return Stellar\DependencyInjection\ServiceInterface
+     * @return ServiceInterface
      */
     public function getDependency ($key) {
         if (!is_string($key) || !isset($this->services[$key])) {

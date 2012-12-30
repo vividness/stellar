@@ -2,7 +2,7 @@
 
 namespace Stellar\Kernel;
 
-use Stellar\DependencyInjection\Container,
+use Stellar\DI\Container,
     Stellar\Kernel\Config;
 
 /**
@@ -13,63 +13,46 @@ class Application {
     /**
      * @var Stellar\DependencyInjection\Container
      */
-    protected $DiContainter = null;
+    protected $Container = null;
     
     /**
-     * Config object
-     * @var string 
+     * @var Stellar\Kernel\ApplicationFactory
      */
-    protected $Config = null;
+    protected $Factory = null;
 
     /**
-     * @param array App dependencies  
+     * Initialize instance members only, do not assign dependencies here
+     * leave that for ::run()
      */
-    public function __construct (array $components) {
-        if (!isset($components['Config']) || !($components['Config'] instanceof ConfigInterface)) {
-            $msg = "Invalid Config object passed to Applicaiton constructor!";
-            throw new InvalidArgumentException($msg);
-        }
+    public function __construct () {
+        $this->Factory = new AppFactory();
+        $this->setContainer($this->Factory->createContainer());
+    }
 
-        $this->setConfig($components['Config']);
+    /**
+     * Runs the application
+     */
+    public function run () {
+        $this->getContainer()->addParam('Config', $this->Factory->createConfig());
+        $this->getContainer()->addParam('Router', $this->Factory->createRouter());
+        $this->getContainer()->addParam('Dispatcher', $this->Factory->createDispatcher());
 
-        if (!isset($components['DiContainter']) || !($components['DiContainter'] instanceof ContainerInterface)) {
-            $msg = "Invalid Dependency Injection Container object passed to Application constructor";
-            throw new InvalidArgumentException($msg);
-        }
-
-        $this->setDiContainer($components['DiContainer']);
-
-        //add router, request handler and dispatcher
+        $this->getContainer()->getParam('Dispatcher')->dispatch($this->getContainer());
     }
 
     /**
      * @param ContainerInterface $DiContainer
      * @return Stellar\Kernel\Application
      */
-    public function setDiContainer (ContainerInterface $DiContainer) {
-        $this->DiContainer = $DiContainer;
+    public function setContainer (ContainerInterface $container) {
+        $this->Container = $container;
         return $this;
     }
 
     /**
      * @return Stellar\DependencyInjection\ContainerInterface
      */
-    public function getDiContainer () {
-        return $this->DiContainer;
-    }
-    
-    /**
-     * @param Stellar\Kernel\ConfigInterface
-     */
-    public function setConfig (ConfigInterface $Config) {
-        $this->Conifg = $Config;
-        return $this;
-    }
-
-    /** 
-     * @return Stellar\Kernel\Config 
-     */ 
-    public function getConfig () {
-        return $this->Config;
+    public function getContainer () {
+        return $this->Container;
     }
 }

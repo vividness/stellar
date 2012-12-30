@@ -1,21 +1,18 @@
 <?php 
 
-namespace Stellar\DependencyInjection
+namespace Stellar\DI;
 
-/**
- *
- */
 interface ContainerInterface {
     /**
      * @param string $key
      * @param mixed $val
-     * @return Stellar\DependencyInjection\ContainerInterface
+     * @return ContainerInterface
      */
     public function addParam ($key, $val);
 
     /**
      * @param string $key
-     * @return Stellar\DependencyInjection\ContainerInterface
+     * @return ContainerInterface
      */
     public function removeParam ($key);
 
@@ -28,19 +25,19 @@ interface ContainerInterface {
     /**
      * @param string $key
      * @param callable $setupClosure
-     * @return Stellar\DependencyInjection\ContainerInterface
+     * @return ContainerInterface
      */
     public function addDependency ($key, $setupClosure);
 
     /**
      * @param string $key
-     * @return Stellar\DependencyInjection\ContainerInterface
+     * @return ContainerInterface
      */
     public function removeDependency ($key);
 
     /**
      * @param string $key
-     * @return Stellar\DependencyInjection\DependencyInterface
+     * @return DependencyInterface
      */
     public function getDependency ($key);
 }
