@@ -3,7 +3,8 @@
 namespace Stellar\Kernel;
 
 use Stellar\DI\Container,
-    Stellar\Kernel\Config;
+    Stellar\DI\ContainerInterface,
+    Stellar\Kernel\AppFactory;
 
 /**
  *  Top level application class
@@ -11,12 +12,12 @@ use Stellar\DI\Container,
 class Application {
     
     /**
-     * @var Stellar\DependencyInjection\Container
+     * @var ContainerInterface
      */
     protected $Container = null;
     
     /**
-     * @var Stellar\Kernel\ApplicationFactory
+     * @var ApplicationFactory
      */
     protected $Factory = null;
 
@@ -41,8 +42,8 @@ class Application {
     }
 
     /**
-     * @param ContainerInterface $DiContainer
-     * @return Stellar\Kernel\Application
+     * @param ContainerInterface $Container
+     * @return Application
      */
     public function setContainer (ContainerInterface $container) {
         $this->Container = $container;
@@ -50,7 +51,7 @@ class Application {
     }
 
     /**
-     * @return Stellar\DependencyInjection\ContainerInterface
+     * @return ContainerInterface
      */
     public function getContainer () {
         return $this->Container;
