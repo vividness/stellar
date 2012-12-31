@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         bootstrap="bootstrap.php"
+         strict="true"
+         verbose="true"
+         backupStaticAttributes="false"
+         colors="true">
+<testsuites>
+    <testsuite name="Stellar">
+        <directory>../src/TestStellar/Unit/DI</directory>
+    </testsuite>
+</testsuites>
+</phpunit>

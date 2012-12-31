@@ -2,9 +2,8 @@
 
 namespace TestStellar;
 
-use stdClass,
-    PHPUnit_Framework_TestCase;
+use PHPUnit_Framework_TestCase;
 
-abstract class StellarTestCase extends PHP_Unit_Framework_TestCase {
+abstract class StellarTestCase extends PHPUnit_Framework_TestCase {
 
 }
