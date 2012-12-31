@@ -14,7 +14,7 @@ class Application {
     /**
      * @var ContainerInterface
      */
-    protected $Container = null;
+    protected $Params = null;
     
     /**
      * @var ApplicationFactory
@@ -37,7 +37,7 @@ class Application {
 
         $this->getContainer()
              ->addParam('Config',       $this->Factory->createConfig())
-             ->addParam('Router',       $this->Factory->createRequestHandler())
+             ->addParam('Request',      $this->Factory->createRequest())
              ->addParam('Router',       $this->Factory->createRouter())
              ->addParam('Dispatcher',   $this->Factory->createDispatcher());
 
@@ -48,8 +48,8 @@ class Application {
      * @param ContainerInterface $Container
      * @return Application
      */
-    public function setContainer(ContainerInterface $container) {
-        $this->Container = $container;
+    public function setContainer(ContainerInterface $cont) {
+        $this->Params = $cont;
         return $this;
     }
 
@@ -57,6 +57,6 @@ class Application {
      * @return ContainerInterface
      */
     public function getContainer() {
-        return $this->Container;
+        return $this->Params;
     }
 }
