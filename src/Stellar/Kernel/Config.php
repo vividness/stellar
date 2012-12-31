@@ -2,17 +2,11 @@
 
 namespace Stellar\Kernel;
 
-class Config {
-    /**
-     *
-     */
-    public function __construct ($APP_ROOT) {
-        $config     = $APP_ROOT . '/Config/app.php';
-        $routes     = $APP_ROOT . '/Config/routes.php';
-        $database   = $APP_ROOT . '/Config/database.php';
-    }
+uses Stellar\Kernel\ConfigInterface;
 
-    private function loadFile ($path) {
-        
+class Config implements ConfigInterface {
+
+    public function __construct() {
     }
 }
+

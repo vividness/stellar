@@ -28,7 +28,7 @@ class Container implements ContainerInterface {
      * @param mixed $val
      * @return ContainerInterface
      */
-    public function addParam ($key, $val) {
+    public function addParam($key, $val) {
         if (!is_string($key)) {
             $msg = __METHOD__ . " called with an invalid key!";
             throw new InvalidArgumentException($msg);
@@ -42,7 +42,7 @@ class Container implements ContainerInterface {
      * @param str $key
      * @return ContainerInterface
      */
-    public function removeParam ($key) {
+    public function removeParam($key) {
         if (!is_string($key) || !isset($this->params[$key])) {
             $msg = __METHOD__ . " called with an invalid key!";
             throw new OutOfBoundsException($msg);
@@ -57,7 +57,7 @@ class Container implements ContainerInterface {
      * @param string $key
      * @return mixed
      */
-    public function getParam ($key) {
+    public function getParam($key) {
         if (!is_string($key) || !isset($this->params[$key])) {
             $msg = __METHOD__ . " called with an invalid key!";
             throw new OutOfBoundsException($msg);
@@ -72,7 +72,7 @@ class Container implements ContainerInterface {
      * @param callable $setupClosure
      * @return ContainerInterface
      */
-    public function addDependency ($key, $setupClosure) {
+    public function addDependency($key, $setupClosure) {
         if (!is_string($key) || !is_callable($setupClosure)) {
             $msg = __METHOD__ . " called with an invalid parameter!";
             throw new InvalidArgumentException($msg);
@@ -87,7 +87,7 @@ class Container implements ContainerInterface {
      * @param string $key
      * @return ContainerInterface
      */
-    public function removeDependency ($key) {
+    public function removeDependency($key) {
          if (!is_string($key) || !isset($this->dependency[$key])) {
             $msg = __METHOD__ . " called with an invalid key!";
             throw new OutOfBoundsException($msg);
@@ -102,7 +102,7 @@ class Container implements ContainerInterface {
      * @param string $key
      * @return ServiceInterface
      */
-    public function getDependency ($key) {
+    public function getDependency($key) {
         if (!is_string($key) || !isset($this->services[$key])) {
             $msg = __METHOD__ . " called with an invalid key!";
             throw new OutOfBoundsException($msg);

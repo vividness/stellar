@@ -8,36 +8,36 @@ interface ContainerInterface {
      * @param mixed $val
      * @return ContainerInterface
      */
-    public function addParam ($key, $val);
+    public function addParam($key, $val);
 
     /**
      * @param string $key
      * @return ContainerInterface
      */
-    public function removeParam ($key);
+    public function removeParam($key);
 
     /**
      * @param string $key 
      * return mixesd
      */
-    public function getParam ($key);
+    public function getParam($key);
 
     /**
      * @param string $key
      * @param callable $setupClosure
      * @return ContainerInterface
      */
-    public function addDependency ($key, $setupClosure);
+    public function addDependency($key, $setupClosure);
 
     /**
      * @param string $key
      * @return ContainerInterface
      */
-    public function removeDependency ($key);
+    public function removeDependency($key);
 
     /**
      * @param string $key
      * @return DependencyInterface
      */
-    public function getDependency ($key);
+    public function getDependency($key);
 }
