@@ -12,9 +12,9 @@
 		"php": ">=5.3.3", 
         "phpunit/phpunit": "3.7.0"
     },
-	"autoload": {
-		"psr-0": {
-			"": "src/"
-		}
-	}
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    }
 }

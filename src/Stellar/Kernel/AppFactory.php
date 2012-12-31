@@ -2,39 +2,47 @@
 
 namespace Stellar\Kernel;
 
-uses Stellar\Kernel\Config,
-     Stellar\Kernel\Router,
-     Stellar\Kernel\Dispatcher,
-     Stellar\Kernel\RequestHandler;
+use Stellar\DI\Container,
+    Stellar\Kernel\Config,
+    Stellar\MVC\Request,
+    Stellar\MVC\Router,
+    Stellar\MVC\Dispatcher;
 
 /** 
  * App components factory
  */
 class AppFactory implements AppFactoryInterface {
+   
+    /**
+     *@return ContainerInterface
+     */
+    public function createContainer() {
+        return new Container();
+    }
     
     /**
-     * @return Config
+     * @return ConfigInterface
      */
     public function createConfig() {
         return new Config();
     }
 
     /**
-     * @return RequestHandler
+     * @return RequestInterface
      */
-    public function createRequestHandler() {
-        return new RequestHandler();
+    public function createRequest() {
+        return new Request();
     }
 
     /**
-     * @return Router
+     * @return RouterInterface
      */
     public function createRouter() { 
         return new Router();
     }
 
     /**
-     * @return Dispatcher
+     * @return DispatcherInterface
      */
     public function createDispatcher() {
         return new Dispatcher();

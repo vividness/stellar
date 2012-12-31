@@ -2,4 +2,5 @@
 
 namespace Stellar\Kernel;
 
-interface ConfigInterface {}
+interface ConfigInterface {
+}

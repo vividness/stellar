@@ -2,7 +2,7 @@
 
 namespace Stellar\Kernel;
 
-uses Stellar\Kernel\ConfigInterface;
+use Stellar\Kernel\ConfigInterface;
 
 class Config implements ConfigInterface {
 

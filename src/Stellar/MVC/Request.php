@@ -2,7 +2,7 @@
 
 namespace Stellar\MVC;
 
-uses Stellar\MVC\RequestInterface;
+use Stellar\MVC\RequestInterface;
 
 class Request implements RequestInterface {}
 

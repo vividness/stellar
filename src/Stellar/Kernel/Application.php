@@ -2,9 +2,8 @@
 
 namespace Stellar\Kernel;
 
-uses Stellar\DI\Container,
-     Stellar\DI\ContainerInterface,
-     Stellar\Kernel\AppFactory;
+use Stellar\Kernel\AppFactory,
+    Stellar\DI\ContainerInterface;
 
 /**
  *  Top level application class
@@ -41,7 +40,9 @@ class Application {
              ->addParam('Router',       $this->Factory->createRouter())
              ->addParam('Dispatcher',   $this->Factory->createDispatcher());
 
-        $this->getContainer()->getParam('Dispatcher')->dispatch($this->getContainer());
+        $this->getContainer()
+             ->getParam('Dispatcher')
+             ->dispatch($this->getContainer());
     }
 
     /**

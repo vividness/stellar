@@ -2,7 +2,7 @@
 
 namespace Stellar\MVC;
 
-uses Stellar\DI\ContainerInterface;
+use Stellar\DI\ContainerInterface;
 
 /**
  * Dispatcher interface

@@ -9,22 +9,22 @@ namespace Stellar\Kernel;
 interface AppFactoryInterface {
     
     /**
-     * @return Config
+     * @return ConfigInterface
      */
     public function createConfig();
 
     /**
-     * @return RequestHandler
+     * @return RequestInterface
      */
-    public function createRequestHandler();
+    public function createRequest();
 
     /** 
-     * @return Router
+     * @return RouterInterface
      */
     public function createRouter();
     
     /**
-     * @return Dispatcher
+     * @return DispatcherInterface
      */
     public function createDispatcher();
 }

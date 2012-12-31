@@ -2,9 +2,11 @@
 
 use Stellar\Kernel\Application;
 
-define('ROOT',      realpath('..'));
-define('WWW_ROOT',  realpath('.'));
-define('APP_ROOT',  realpath(ROOT . '/app'));
+define('ROOT',      realpath(__DIR__ . '/..'));
+define('WWW_ROOT',  realpath(__DIR__));
+define('APP_ROOT',  realpath(__DIR__ . '../app'));
+
+require_once ROOT . "/autoloader.php";
 
 $app = new Application();
 $app->run();

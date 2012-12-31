@@ -1,3 +1,6 @@
 <?php
 
-interface RequestInterface {}
+namespace Stellar\MVC;
+
+interface RequestInterface {
+}
