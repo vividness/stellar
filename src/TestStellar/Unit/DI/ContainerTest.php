@@ -2,7 +2,8 @@
 
 namespace TestStellar\Unit\DI;
 
-use TestStellar\StellarTestCase,
+use stdClass,
+    TestStellar\StellarTestCase,
     Stellar\DI\Container;
 
 class ContainerTest extends StellarTestCase {
@@ -79,6 +80,71 @@ class ContainerTest extends StellarTestCase {
         $returnVal = $container->removeParam('test');
         $interface = 'Stellar\DI\ContainerInterface';
 
+        $this->assertInstanceOf($interface, $returnVal);
+    }
+
+    /**
+     * @test
+     * @depends createContainer
+     */
+    public function addServiceThrowsException(Container $container) {
+        $this->setExpectedException('InvalidArgumentException');
+
+        $container->addService('test', 1234);
+    }
+
+    /**
+     * @test
+     * @depends createContainer
+     */
+    public function addServicePasses(Container $container) {
+        $returnVal = $container->addService('test', function () {
+            return new stdClass();
+        });
+
+        $interface = 'Stellar\DI\ContainerInterface';
+        $this->assertInstanceOf($interface, $returnVal);
+    
+        return $container;
+    }
+    
+    /**
+     * @test
+     * @depends addServicePasses 
+     */
+    public function getServiceThrowsException(Container $container) {
+        $this->setExpectedException('OutOfBoundsException');
+
+        $returnVal = $container->getService('test12345');
+    }
+
+    /**
+     * @test
+     * @depends addServicePasses
+     */
+    public function getServicePasses(Container $container) {
+        $returnVal = $container->getService('test');
+        $this->assertInstanceOf('stdClass', $returnVal);
+    }
+
+    /**
+     * @test 
+     * @depends addServicePasses
+     */
+    public function removeServiceThrowsException(Container $container) {
+        $this->setExpectedException('OutOfBoundsException');
+
+        $container->removeService('test1234');
+    }
+
+    /**
+     * @test
+     * @depends addServicePasses
+     */
+    public function removeServicePasses(Container $container) {
+        $returnVal = $container->removeService('test');
+
+        $interface = 'Stellar\DI\ContainerInterface';
         $this->assertInstanceOf($interface, $returnVal);
     }
 }

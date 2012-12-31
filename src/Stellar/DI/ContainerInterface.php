@@ -27,17 +27,17 @@ interface ContainerInterface {
      * @param callable $setupClosure
      * @return ContainerInterface
      */
-    public function addDependency($key, $setupClosure);
+    public function addService($key, $setupClosure);
 
     /**
      * @param string $key
      * @return ContainerInterface
      */
-    public function removeDependency($key);
+    public function removeService($key);
 
     /**
      * @param string $key
-     * @return DependencyInterface
+     * @return ServiceInterface
      */
-    public function getDependency($key);
+    public function getService($key);
 }

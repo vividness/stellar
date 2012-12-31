@@ -20,7 +20,7 @@ class Container implements ContainerInterface {
      * Use to store instances of dependent objects
      * @var array
      */
-    protected $dependencies = array();
+    protected $services = array();
 
     /**
      * Container parameter setter
@@ -72,13 +72,13 @@ class Container implements ContainerInterface {
      * @param callable $setupClosure
      * @return ContainerInterface
      */
-    public function addDependency($key, $setupClosure) {
+    public function addService($key, $setupClosure) {
         if (!is_string($key) || !is_callable($setupClosure)) {
             $msg = __METHOD__ . " called with an invalid parameter!";
             throw new InvalidArgumentException($msg);
         }
 
-        $this->dependencies[$key] = $setupClosure($this);
+        $this->services[$key] = $setupClosure($this);
         return $this;
     }
 
@@ -87,8 +87,8 @@ class Container implements ContainerInterface {
      * @param string $key
      * @return ContainerInterface
      */
-    public function removeDependency($key) {
-         if (!is_string($key) || !isset($this->dependency[$key])) {
+    public function removeService($key) {
+         if (!is_string($key) || !isset($this->services[$key])) {
             $msg = __METHOD__ . " called with an invalid key!";
             throw new OutOfBoundsException($msg);
         }
@@ -100,14 +100,14 @@ class Container implements ContainerInterface {
     /**
      * Returns the instance of a service
      * @param string $key
-     * @return ServiceInterface
+     * @return mixed
      */
-    public function getDependency($key) {
+    public function getService($key) {
         if (!is_string($key) || !isset($this->services[$key])) {
             $msg = __METHOD__ . " called with an invalid key!";
             throw new OutOfBoundsException($msg);
         }
 
-        return $this->services[$name];
+        return $this->services[$key];
     }
 }
