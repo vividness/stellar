@@ -8,6 +8,7 @@
 <testsuites>
     <testsuite name="Stellar">
         <directory>../src/TestStellar/Unit/DI</directory>
+        <directory>../src/TestStellar/Unit/Kernel</directory>
     </testsuite>
 </testsuites>
 </phpunit>

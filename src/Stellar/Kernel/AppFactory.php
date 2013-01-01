@@ -8,9 +8,6 @@ use Stellar\DI\Container,
     Stellar\MVC\Router,
     Stellar\MVC\Dispatcher;
 
-/** 
- * App components factory
- */
 class AppFactory implements AppFactoryInterface {
    
     /**
