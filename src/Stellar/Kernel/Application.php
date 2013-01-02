@@ -25,24 +25,45 @@ class Application {
      * leave that for ::run()
      */
     public function __construct() {
-        $this->Factory = new AppFactory();
+        $this->setFactory(new AppFactory());
+        
+        $factory = $this->getFactory();
+        $this->setContainer($factory->createContainer());
     }
 
     /**
      * Runs the application
      */
     public function run() {
-        $this->setContainer($this->Factory->createContainer());
+        $factory   = $this->getFactory();
+        $container = $this->getContainer();
 
-        $this->getContainer()
-             ->addParam('Config',       $this->Factory->createConfig())
-             ->addParam('Request',      $this->Factory->createRequest())
-             ->addParam('Router',       $this->Factory->createRouter())
-             ->addParam('Dispatcher',   $this->Factory->createDispatcher());
+        $container
+            ->addParam('Config',     $factory->createConfig())
+            ->addParam('Request',    $factory->createRequest())
+            ->addParam('Router',     $factory->createRouter())
+            ->addParam('Dispatcher', $factory->createDispatcher());
+        
+        $dispatcher = $container->getParam('Dispatcher');
+        $dispatcher->dispatch($container);
+        
+        return;
+    }
 
-        $this->getContainer()
-             ->getParam('Dispatcher')
-             ->dispatch($this->getContainer());
+    /**
+     * @param AppFactory $factory
+     * @return Application
+     */
+    public function setFactory(AppFactoryInterface $factory) {
+        $this->Factory = $factory;
+        return $this;
+    }
+    
+    /**
+     * @return AppFactoryInterafce
+     */
+    public function getFactory() {
+        return $this->Factory;
     }
 
     /**
@@ -60,4 +81,5 @@ class Application {
     public function getContainer() {
         return $this->Params;
     }
+
 }

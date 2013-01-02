@@ -10,6 +10,6 @@ class Dispatcher implements DispatcherInterface {
      * @param ContainerInterface $params
      */
     public function dispatch(ContainerInterface $params) {
-        die('IT WORKS!');        
+        return $this;        
     }
 }
