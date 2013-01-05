@@ -3,5 +3,4 @@
 namespace Stellar\MVC;
 
 interface RouterInterface {
-    
 }

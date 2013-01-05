@@ -3,6 +3,7 @@
 namespace Stellar\DI;
 
 interface ContainerInterface {
+
     /**
      * @param string $key
      * @param mixed $val

@@ -2,7 +2,8 @@
 
 namespace Stellar\Kernel;
 
-use Stellar\Kernel\AppFactory,
+use RuntimeException,
+    Stellar\Kernel\AppFactory,
     Stellar\DI\ContainerInterface;
 
 /**
@@ -25,6 +26,16 @@ class Application {
      * leave that for ::run()
      */
     public function __construct() {
+        if (!defined('ROOT')) {
+            $msg = 'Project root directory not defined';
+            throw new RuntimeException($msg);
+        }
+        
+        if (!defined('APP_ROOT')) {
+            $msg = 'Application root directory not defined';
+            throw new RuntimeException($msg);
+        }
+
         $this->setFactory(new AppFactory());
         
         $factory = $this->getFactory();
@@ -38,12 +49,11 @@ class Application {
         $factory   = $this->getFactory();
         $container = $this->getContainer();
 
-        $container
-            ->addParam('Config',     $factory->createConfig())
-            ->addParam('Request',    $factory->createRequest())
-            ->addParam('Router',     $factory->createRouter())
-            ->addParam('Dispatcher', $factory->createDispatcher());
-        
+        $container->addParam('Config',     $factory->createConfig())
+                  ->addParam('Request',    $factory->createRequest())
+                  ->addParam('Router',     $factory->createRouter())
+                  ->addParam('Dispatcher', $factory->createDispatcher());
+         
         $dispatcher = $container->getParam('Dispatcher');
         $dispatcher->dispatch($container);
         
@@ -81,5 +91,4 @@ class Application {
     public function getContainer() {
         return $this->Params;
     }
-
 }
