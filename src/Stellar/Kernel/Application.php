@@ -35,11 +35,12 @@ class Application {
             $msg = 'Application root directory not defined';
             throw new RuntimeException($msg);
         }
-
-        $this->setFactory(new AppFactory());
         
-        $factory = $this->getFactory();
-        $this->setContainer($factory->createContainer());
+        $factory = new AppFactory();
+        $container = $factory->createContainer();
+
+        $this->setFactory($factory);
+        $this->setContainer($container);
     }
 
     /**

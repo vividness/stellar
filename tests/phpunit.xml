@@ -9,6 +9,7 @@
     <testsuite name="Stellar">
         <directory>../src/TestStellar/Unit/DI</directory>
         <directory>../src/TestStellar/Unit/Kernel</directory>
+        <directory>../src/TestStellar/Unit/MVC</directory>
     </testsuite>
 </testsuites>
 </phpunit>
