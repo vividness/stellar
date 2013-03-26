@@ -10,3 +10,5 @@ require_once APP_ROOT . "/bootstrap.php";
 
 $app = new Application();
 $app->run();
+
+print "All clear!\n";

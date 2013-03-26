@@ -10,7 +10,7 @@ class Config implements ConfigInterface {
     /**
      * @var string
      */
-    const CONFIG_FILE = '/Config/app.ini'; 
+    const DEFAULT_CONFIG_FILE = 'Config/app.ini'; 
 
     /**
      * @var string
@@ -28,7 +28,7 @@ class Config implements ConfigInterface {
     public function __construct() { 
         $this->setConfigFilePath()
              ->loadConfigData();
-    } 
+    }
    
    /**
      * @param string $section
@@ -85,7 +85,7 @@ class Config implements ConfigInterface {
      * @return string 
      */
     private function defaultConfigFilePath() {
-        return APP_ROOT . self::CONFIG_FILE;
+        return APP_ROOT . '/' . self::CONFIG_FILE;
     }
 
     /**
@@ -106,5 +106,5 @@ class Config implements ConfigInterface {
      */
     private function getConfigFilePath() {
         return $this->configFilePath;
-    } 
+    }
 }

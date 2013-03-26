@@ -55,9 +55,9 @@ class Application {
                   ->addParam('Router',     $factory->createRouter())
                   ->addParam('Dispatcher', $factory->createDispatcher());
          
-        $dispatcher = $container->getParam('Dispatcher');
-        $dispatcher->dispatch($container);
-        
+        $container->getParam('Dispatcher')
+                  ->dispatch($container);
+
         return;
     }
 
