@@ -4,7 +4,7 @@ php:
 
 before_script:
     - curl -s http://getcomposer.org/installer | php
-    - COMPOSER_ROOT_VERSION=dev-int-symfony php composer.phar --dev install
+    - COMPOSER_ROOT_VERSION=dev-int-symfony php composer.phar install
 
 script: 
     - phpunit -c tests
