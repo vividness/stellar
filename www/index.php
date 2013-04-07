@@ -11,4 +11,8 @@ require_once APP_ROOT . "/bootstrap.php";
 $app = new Application();
 $app->run();
 
+<<<<<<< Updated upstream
 print "All clear!\n";
+=======
+print_r($app);
+>>>>>>> Stashed changes

@@ -57,7 +57,8 @@ class AppFactoryTest extends StellarTestCase {
      * @depends createAppFactory
      */
     public function createRouter(AppFactory $factory) {
-        $returnVal = $factory->createRouter();
+        $deps = $factory->createContainer();
+        $returnVal = $factory->createRouter($deps);
 
         $interface = 'Stellar\MVC\RouterInterface';
         $this->assertInstanceOf($interface, $returnVal);

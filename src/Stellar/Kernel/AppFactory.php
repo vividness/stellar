@@ -3,6 +3,7 @@
 namespace Stellar\Kernel;
 
 use Stellar\DI\Container,
+    Stellar\DI\ContainerInterface,
     Stellar\Kernel\Config,
     Stellar\MVC\Request,
     Stellar\MVC\Router,
@@ -34,8 +35,8 @@ class AppFactory implements AppFactoryInterface {
     /**
      * @return RouterInterface
      */
-    public function createRouter() { 
-        return new Router();
+    public function createRouter(ContainerInterface $deps) { 
+        return new Router($deps);
     }
 
     /**

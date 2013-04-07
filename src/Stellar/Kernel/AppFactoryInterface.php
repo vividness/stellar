@@ -2,6 +2,8 @@
 
 namespace Stellar\Kernel;
 
+use Stellar\DI\ContainerInterface;
+
 interface AppFactoryInterface {
     
     /**
@@ -15,9 +17,10 @@ interface AppFactoryInterface {
     public function createRequest();
 
     /** 
+     * @param  ContainerIngterface $deps Dependency container
      * @return RouterInterface
      */
-    public function createRouter();
+    public function createRouter(ContainerInterface $deps);
     
     /**
      * @return DispatcherInterface

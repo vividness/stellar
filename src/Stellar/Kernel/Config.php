@@ -48,13 +48,13 @@ class Config implements ConfigInterface {
         
         if (!array_key_exists($section, $this->configData)) {
             $msg  = 'Section "' . $section . '" not defined. ';
-            $msg .= 'Please check your ' . self::CONFIG_FILE;
+            $msg .= 'Please check your ' . self::DEFAULT_CONFIG_FILE;
             throw new RuntimeException($msg);
         }
         
         if (!array_key_exists($param, $this->configData[$section])) {
             $msg  = 'Parameter "' . $param . '" not defined. ';
-            $msg .= 'Please check your ' . self::CONFIG_FILE;
+            $msg .= 'Please check your ' . self::DEFAULT_CONFIG_FILE;
             throw new RuntimeException($msg);
         }
 
@@ -85,7 +85,7 @@ class Config implements ConfigInterface {
      * @return string 
      */
     private function defaultConfigFilePath() {
-        return APP_ROOT . '/' . self::CONFIG_FILE;
+        return APP_ROOT . '/' . self::DEFAULT_CONFIG_FILE;
     }
 
     /**

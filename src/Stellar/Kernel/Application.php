@@ -27,7 +27,7 @@ class Application {
      */
     public function __construct() {
         if (!defined('ROOT')) {
-            $msg = 'Project root directory not defined';
+            $msg = 'Framework root directory not defined';
             throw new RuntimeException($msg);
         }
         
@@ -47,13 +47,20 @@ class Application {
      * Runs the application
      */
     public function run() {
-        $factory   = $this->getFactory();
-        $container = $this->getContainer();
+        $factory    = $this->getFactory();
+        $container  = $this->getContainer();
+        
+        /* 
+        $config     = $factory->createConfig(); //TODO: pass the container to the object
+        $request    = $factory->createRequest();
+        $router     = $factory->createRouter($container);
+        $dispatcher = $factory->createDispatcher($container);
+        */
 
         $container->addParam('Config',     $factory->createConfig())
                   ->addParam('Request',    $factory->createRequest())
-                  ->addParam('Router',     $factory->createRouter())
-                  ->addParam('Dispatcher', $factory->createDispatcher());
+                  ->addParam('Router',     $factory->createRouter($container))
+                  ->addParam('Dispatcher', $factory->createDispatcher($container));
          
         $container->getParam('Dispatcher')
                   ->dispatch($container);
