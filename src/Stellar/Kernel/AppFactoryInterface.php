@@ -14,13 +14,13 @@ interface AppFactoryInterface {
     /**
      * @return RequestInterface
      */
-    public function createRequest();
+    public function createRequest(ContainerInterface $container);
 
     /** 
      * @param  ContainerIngterface $deps Dependency container
      * @return RouterInterface
      */
-    public function createRouter(ContainerInterface $deps);
+    public function createRouter(ContainerInterface $container);
     
     /**
      * @return DispatcherInterface

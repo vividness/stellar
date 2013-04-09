@@ -15,19 +15,17 @@ interface RequestInterface {
     public function isGet();
 
     /**
-     * @injectable
      * @param array $req
      * @return RequestInterface
      */
-    public function setRequestType($type = null);
+    public function setRequestMethod($type = null);
 
     /**
      * @return string 
      */
-    public function getRequestType();
+    public function getRequestMethod();
 
     /**
-     * @injectable
      * @param array $req
      * @return RequestInterface
      */

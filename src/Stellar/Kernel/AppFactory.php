@@ -28,15 +28,15 @@ class AppFactory implements AppFactoryInterface {
     /**
      * @return RequestInterface
      */
-    public function createRequest() {
-        return new Request();
+    public function createRequest(ContainerInterface $container) {
+        return new Request($container);
     }
 
     /**
      * @return RouterInterface
      */
-    public function createRouter(ContainerInterface $deps) { 
-        return new Router($deps);
+    public function createRouter(ContainerInterface $container) { 
+        return new Router($container);
     }
 
     /**

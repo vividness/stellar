@@ -4,69 +4,51 @@ namespace Stellar\MVC;
 
 use RuntimeException,
     InvalidArgumentException, 
-    Stellar\MVC\RequestInterface;
+    Stellar\MVC\RequestInterface,
+    Stellar\DI\ContainerInterface;
 
 class Request implements RequestInterface {
 
     /**
      * @var array Request data
      */
-    protected $reqData = array();
+    protected $reqestData = array();
 
     /**
      * @var string POST | GET | PUT | HEAD 
      */
-    protected $reqType = null;
+    protected $reqestMethod;
 
     /**
-     * @param array $req
+     * Create the Request object from the globals
+     * @param ContainerInterface
      */ 
-    public function __construct($req = array()) {
-        if (!is_array($req)) {
-            $msg = 'Parameter must be an array';
-            throw new InvalidArgumentException($msg);
-        }
-        
-        if (!array_key_exists('get', $req) && isset($_GET)) {
-            $req['get'] = $_GET;
-        }
+    public function __construct(ContainerInterface $container) {
+        $reqestData = array(
+            'get'     => $_GET,
+            'post'    => $_POST,
+            'cookie'  => $_COOKIE,
+            'session' => isset($_SESSION) ? $_SESSION : null,
+            'files'   => $_FILES,
+            'server'  => $_SERVER
+        );
 
-        if (!array_key_exists('post', $req) && isset($_POST)) {
-            $req['post'] = $_POST;
-        }    
-        
-        if (!array_key_exists('cookie', $req) && isset($_COOKIE)) {
-            $req['cookie'] = $_COOKIE;
-        }
-        
-        if (!array_key_exists('session', $req) && isset($_SESSION)) {
-            $req['session'] = $_SESSION;
-        }
-
-        if (!array_key_exists('files', $req) && isset($_FILES)) {
-            $req['files'] = $_FILES;
-        }
-
-        if (!array_key_exists('server', $req) && isset($_SERVER)) {
-            $req['server'] = $_SERVER;
-        }
-
-        $this->setRequestData($req)
-             ->setRequestType();
+        $this->setRequestData($reqestData)
+             ->setRequestMethod();
     }
 
     /**
      * @return  bool
      */
     public function isPost() {
-        return $this->getRequestType() === 'POST';
+        return $this->getRequestMethod() === 'POST';
     }
 
     /**
      * @return  bool
      */
     public function isGet() {
-        return $this->getRequestType() === 'GET';
+        return $this->getRequestMethod() === 'GET';
     }
  
     /**
@@ -74,7 +56,7 @@ class Request implements RequestInterface {
      * @param array $req
      * @return RequestInterface
      */
-    public function setRequestType($type = null) {
+    public function setRequestMethod($type = null) {
         if ($type === null) {
             $req = $this->getRequestData();
            
@@ -83,7 +65,7 @@ class Request implements RequestInterface {
                     null;
         }
         
-        $this->reqType = $type;
+        $this->reqestMethod = $type;
 
         return $this;
     }
@@ -91,8 +73,8 @@ class Request implements RequestInterface {
     /**
      * @return string 
      */
-    public function getRequestType() {
-        return $this->reqType;
+    public function getRequestMethod() {
+        return $this->reqestMethod;
     }
 
     /**
@@ -106,7 +88,7 @@ class Request implements RequestInterface {
             throw new InvalidArgumentException($msg);
         }
 
-        $this->reqData = $req;
+        $this->reqestData = $req;
 
         return $this;
     }
@@ -115,6 +97,6 @@ class Request implements RequestInterface {
      * @return array 
      */
     public function getRequestData() {
-        return $this->reqData;
+        return $this->reqestData;
     }
 }

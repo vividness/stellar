@@ -4,42 +4,40 @@ namespace TestStellar\Unit\MVC;
 
 use TestStellar\StellarTestCase,
     Stellar\MVC\RequestInterface,
-    Stellar\MVC\Request;
+    Stellar\MVC\Request,
+    Stellar\Kernel\AppFactory;
 
 class RequestTest extends StellarTestCase {
    
     /**
      * Provide request data as it would be in $_POST, $_GET, etc
      */
-    public function provideRequestData() {
-        $req = array(
-            'get'       => array('param1' => 'val1'),
-            'post'      => array('param2' => 'val2'),
-            'cookie'    => array('param3' => 'val3'),
-            'session'   => array('param4' => 'val4'),
-            'files'     => array(
-                'testFile' =>array(
-                    'name'      => 'dummy.txt',
-                    'type'      => 'fileType',
-                    'tmp_name'  => APP_ROOT . '/tmp/d1u2m3m4y5.txt',
-                    'error'     => 0,
-                    'size'      => 12345
-                )
-            ),
-            'server'    => array(
-                'param5'            => 'val5',
-                'REQUEST_METHOD'    => 'GET'
+    public function setRequestGlobals() {
+        $_GET     = array('param1' => 'val1');
+        $_POST    = array('param2' => 'val2');
+        $_COOKIE  = array('param3' => 'val3');
+        $_SESSION = array('param4' => 'val4');
+        $_FILES   = array(
+            'testFile' => array(
+                'name'      => 'dummy.txt',
+                'type'      => 'fileType',
+                'tmp_name'  => APP_ROOT . '/tmp/d1u2m3m4y5.txt',
+                'error'     => 0,
+                'size'      => 12345
             )
         );
 
-        return $req;
+        $_SERVER = array(
+            'param5'         => 'val5',
+            'REQUEST_METHOD' => 'GET'
+        );
     }
     
     /**
      * @test 
      */
     public function constructorThrowsException() {
-        $exception = 'InvalidArgumentException';
+        $exception = 'PHPUnit_Framework_Error';
         $this->setExpectedException($exception);
         
         $requestData = 'string';
@@ -52,8 +50,12 @@ class RequestTest extends StellarTestCase {
      * @return RequestInterface
      */
     public function createRequest() {
-        $requestData = $this->provideRequestData();
-        $req = new Request($requestData);
+        $this->setRequestGlobals();
+        
+        $factory   = new AppFactory();
+        $container = $factory->createContainer();
+
+        $req = new Request($container);
 
         $interface = 'Stellar\MVC\RequestInterface';
         $this->assertInstanceOf($interface, $req);
@@ -90,7 +92,7 @@ class RequestTest extends StellarTestCase {
      */
     public function setRequestType(RequestInterface $req) {
         $interface = 'Stellar\MVC\RequestInterface';
-        $returnVal = $req->setRequestType();
+        $returnVal = $req->setRequestMethod();
 
         $this->assertInstanceOf($interface, $returnVal);
     }
@@ -100,7 +102,7 @@ class RequestTest extends StellarTestCase {
      * @depends createRequest
      */
     public function getRequestType(RequestInterface $req) {
-        $returnVal = $req->getRequestType();
+        $returnVal = $req->getRequestMethod();
         $expected  = 'GET';
 
         $this->assertEquals($expected, $returnVal);
@@ -122,10 +124,9 @@ class RequestTest extends StellarTestCase {
      * @depends createRequest
      */
     public function setRequestData(RequestInterface $req) {
-        $reqData   = $this->provideRequestData();
         $interface = 'Stellar\MVC\RequestInterface';
 
-        $returnVal = $req->setRequestData($reqData);
+        $returnVal = $req->setRequestData(array('test' => 'pass'));
         $this->assertinstanceOf($interface, $returnVal);
 
         return $req;
@@ -136,7 +137,7 @@ class RequestTest extends StellarTestCase {
      * @depends createRequest
      */
     public function getRequestData(RequestInterface $req) {
-        $expected  = $this->provideRequestData();
+        $expected = array('test' => 'pass');
         $returnVal = $req->getRequestData();
 
         $this->assertEquals($expected, $returnVal);

@@ -14,12 +14,12 @@ class Application {
     /**
      * @var ContainerInterface
      */
-    protected $Params = null;
+    protected $Params;
     
     /**
      * @var ApplicationFactory
      */
-    protected $Factory = null;
+    protected $Factory;
 
     /**
      * Initialize instance members only, do not assign dependencies here
@@ -27,12 +27,12 @@ class Application {
      */
     public function __construct() {
         if (!defined('ROOT')) {
-            $msg = 'Framework root directory not defined';
+            $msg = 'Project root directory not defined!';
             throw new RuntimeException($msg);
         }
         
         if (!defined('APP_ROOT')) {
-            $msg = 'Application root directory not defined';
+            $msg = 'Application root directory not defined!';
             throw new RuntimeException($msg);
         }
         
@@ -44,26 +44,26 @@ class Application {
     }
 
     /**
-     * Runs the application
+     * Runs the application. This is where the default
+     * container setup is happening.
      */
     public function run() {
         $factory    = $this->getFactory();
         $container  = $this->getContainer();
         
-        /* 
-        $config     = $factory->createConfig(); //TODO: pass the container to the object
-        $request    = $factory->createRequest();
+        /**
+         * TODO: check if the parameters are already set
+         *       and if they are skip initialization. 
+         */
+        $request    = $factory->createRequest($container);
         $router     = $factory->createRouter($container);
         $dispatcher = $factory->createDispatcher($container);
-        */
-
-        $container->addParam('Config',     $factory->createConfig())
-                  ->addParam('Request',    $factory->createRequest())
-                  ->addParam('Router',     $factory->createRouter($container))
-                  ->addParam('Dispatcher', $factory->createDispatcher($container));
+        
+        $container->addParam('Router',     $router)
+                  ->addParam('Request',    $request)
+                  ->addParam('Dispatcher', $dispatcher);
          
-        $container->getParam('Dispatcher')
-                  ->dispatch($container);
+        $dispatcher->dispatch($container);
 
         return;
     }
