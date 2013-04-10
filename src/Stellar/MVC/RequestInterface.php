@@ -34,5 +34,10 @@ interface RequestInterface {
     /**
      * @return array 
      */
-    public function getRequestData();
+    public function &getRequestData();
+
+    /**
+     * 
+     */
+    public function get();
 }

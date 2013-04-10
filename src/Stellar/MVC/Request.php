@@ -84,7 +84,7 @@ class Request implements RequestInterface {
      */
     public function setRequestData($req = array()) {
         if (!is_array($req)) {
-            $msg = 'Parameter must be an array';
+            $msg = 'Parameter must be an array.';
             throw new InvalidArgumentException($msg);
         }
 
@@ -96,7 +96,52 @@ class Request implements RequestInterface {
     /**
      * @return array 
      */
-    public function getRequestData() {
+    public function &getRequestData() {
         return $this->reqestData;
+    }
+
+    /**
+     * This method has a little bit of magic inside.
+     * It has variable parameters. If the parameter 1 is 
+     * provided, we will return the value from the $requestData array.
+     * If we have param1 and param2 passed then we will set the param2 as
+     * the value of the para1 key in the $requestData array.
+     * 
+     * example:
+     *      $req = new Request();
+     *      print $req->get('name'); // prints out the value of $_GET['name']
+     *
+     *      $req->get('name', 'Vladimir') // sets the value of $_GET['name'] to 'Vladimir';
+     *      
+     * @param string Key name
+     * @param mixed  Value
+     * @return null | mixed
+     */
+    public function get() {
+        $argc = func_num_args();
+        if (2 < $argc || 1 > $argc) {
+            $msg = 'Invalid number of arguments.';
+            throw new InvalidArgumentException($msg);
+        }
+
+        $data = $this->getRequestData();
+        
+        if (1 === $argc) {
+            $key = func_get_arg(0);
+
+            if (!array_key_exists($key, $data['get'])) {
+                $msg = 'Parameter could not be found.';
+                throw new RuntimeException($msg);
+            }
+
+            return $data['get'][$key];
+        } else if (2 === $argc) {
+            $key   = func_get_arg(0);
+            $value = func_get_arg(1);
+
+            $datai['get'][$key] = $value;
+            
+            return;
+        }
     }
 }
