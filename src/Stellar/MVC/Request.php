@@ -4,8 +4,7 @@ namespace Stellar\MVC;
 
 use RuntimeException,
     InvalidArgumentException, 
-    Stellar\MVC\RequestInterface,
-    Stellar\DI\ContainerInterface;
+    Stellar\MVC\RequestInterface;
 
 class Request implements RequestInterface {
 
@@ -23,7 +22,7 @@ class Request implements RequestInterface {
      * Create the Request object from the globals
      * @param ContainerInterface
      */ 
-    public function __construct(ContainerInterface $container) {
+    public function __construct() {
         $reqestData = array(
             'get'     => $_GET,
             'post'    => $_POST,
@@ -119,14 +118,14 @@ class Request implements RequestInterface {
      */
     public function get() {
         $argc = func_num_args();
-        if (2 < $argc || 1 > $argc) {
+        if ($argc > 2 || $argc < 1) {
             $msg = 'Invalid number of arguments.';
             throw new InvalidArgumentException($msg);
         }
 
-        $data = $this->getRequestData();
+        $data = &$this->getRequestData();
         
-        if (1 === $argc) {
+        if ($argc === 1) {
             $key = func_get_arg(0);
 
             if (!array_key_exists($key, $data['get'])) {
@@ -135,12 +134,11 @@ class Request implements RequestInterface {
             }
 
             return $data['get'][$key];
-        } else if (2 === $argc) {
+        } else if ($argc === 2) {
             $key   = func_get_arg(0);
             $value = func_get_arg(1);
 
-            $datai['get'][$key] = $value;
-            
+            $data['get'][$key] = $value;
             return;
         }
     }

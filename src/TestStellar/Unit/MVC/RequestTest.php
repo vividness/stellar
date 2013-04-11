@@ -34,28 +34,14 @@ class RequestTest extends StellarTestCase {
     }
     
     /**
-     * @test 
-     */
-    public function constructorThrowsException() {
-        $exception = 'PHPUnit_Framework_Error';
-        $this->setExpectedException($exception);
-        
-        $requestData = 'string';
-        $req = new Request($requestData);
-    }
-
-    /**
      * @test
-     * @depends constructorThrowsException
      * @return RequestInterface
      */
     public function createRequest() {
         $this->setRequestGlobals();
-        
-        $factory   = new AppFactory();
-        $container = $factory->createContainer();
+        $factory = new AppFactory();
 
-        $req = new Request($container);
+        $req = new Request();
 
         $interface = 'Stellar\MVC\RequestInterface';
         $this->assertInstanceOf($interface, $req);
@@ -141,5 +127,42 @@ class RequestTest extends StellarTestCase {
         $returnVal = $req->getRequestData();
 
         $this->assertEquals($expected, $returnVal);
+    }
+
+    /**
+     * @test
+     * @depends createRequest
+     */
+    public function getThrowsException(RequestInterface $req) {
+        $exception = 'InvalidArgumentException';
+        $this->setExpectedException($exception);
+        
+        $req->get();
+    }
+
+    /**
+     * @test
+     * @depends createRequest
+     */
+    public function getMethod() {
+        $req = new Request();
+        $req->get('name', 'Vladimir');
+        
+        $expected = 'Vladimir';
+        $returnVal = $req->get('name');
+
+        $this->assertEquals($expected, $returnVal);
+        return $req;
+    }
+
+    /**
+     * @test 
+     * @depends getMethod
+     */
+    public function getMethodThrowsException(RequestInterface $req) {
+        $exception = 'RuntimeException';
+        $this->setExpectedException($exception);
+        
+        $req->get('totallyOff');
     }
 }
