@@ -142,4 +142,41 @@ class Request implements RequestInterface {
             return;
         }
     }
+
+    /**
+     * This method has a little bit of magic inside.
+     * It has variable parameters. If the parameter 1 is 
+     * provided, we will return the value from the $requestData array.
+     * If we have param1 and param2 passed then we will set the param2 as
+     * the value of the para1 key in the $requestData array.
+     * 
+     * example:
+     *      $req = new Request();
+     *      print $req->post('name'); // prints out the value of $_POST['name']
+     *
+     *      $req->post('name', 'Vladimir') // sets the value of $_POST['name'] to 'Vladimir';
+     *      
+     * @param string Key name
+     * @param mixed  Value
+     * @return null | mixed
+     */
+    public function post() {
+        $argc = func_num_args();
+        if ($argc > 2 || $argc < 1) {
+            $msg = 'Invalid number of arguments.';
+            throw new InvalidArgumentException($msg);
+        }
+    
+        if ($argc === 1) {
+            //TODO:
+            return $this->getRequestParam('post', $key);
+        } else if ($argc === 2) {
+            $key   = func_get_arg(0);
+            $value = func_get_arg(1);
+            
+            //TODO:
+            $this->setRequestParam('post', $key, $value);
+            return;
+        }
+    }
 }
