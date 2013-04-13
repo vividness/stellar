@@ -24,12 +24,12 @@ class Request implements RequestInterface {
      */ 
     public function __construct() {
         $reqestData = array(
-            'get'     => $_GET,
-            'post'    => $_POST,
-            'cookie'  => $_COOKIE,
+            'get'     => isset($_GET)     ? $_GET     : null,
+            'post'    => isset($_POST)    ? $_POST    : null,
+            'cookie'  => isset($_COOKIE)  ? $_COOKIE  : null,
             'session' => isset($_SESSION) ? $_SESSION : null,
-            'files'   => $_FILES,
-            'server'  => $_SERVER
+            'files'   => isset($_FILES)   ? $_FILES   : null,
+            'server'  => isset($_SERVER)  ? $_SERVER  : null
         );
 
         $this->setRequestData($reqestData)
@@ -122,7 +122,7 @@ class Request implements RequestInterface {
             $msg = 'Invalid number of arguments.';
             throw new InvalidArgumentException($msg);
         }
-
+        /*
         $data = &$this->getRequestData();
         
         if ($argc === 1) {
@@ -139,6 +139,17 @@ class Request implements RequestInterface {
             $value = func_get_arg(1);
 
             $data['get'][$key] = $value;
+            return;
+        }*/
+        
+        $key   = func_get_arg(0);
+        
+        if ($argc === 1) {
+            return $this->getRequestParam('get', $key);
+        } else if ($argc === 2) {
+            $value = func_get_arg(1);
+            
+            $this->setRequestParam('get', $key, $value);
             return;
         }
     }
@@ -167,16 +178,75 @@ class Request implements RequestInterface {
             throw new InvalidArgumentException($msg);
         }
     
+        $key   = func_get_arg(0);
+        
         if ($argc === 1) {
-            //TODO:
             return $this->getRequestParam('post', $key);
         } else if ($argc === 2) {
-            $key   = func_get_arg(0);
             $value = func_get_arg(1);
             
-            //TODO:
             $this->setRequestParam('post', $key, $value);
             return;
         }
     }
+
+    /**
+     * Return Request data
+     * eg:
+     * $request->get('name'); //Returns $_GET['name'];
+     *
+     * @param $global Name of the first level key get|post|cookie|session
+     * @param $key Second level key name
+     * @return mixed
+     */
+    private function &getRequestParam($global = null, $key = null) {
+        if ($global === null) {
+            $msg = 'Invalid argument $global.';
+            throw new InvalidArgumentException($msg);
+        }
+        
+        if ($key === null) {
+            $msg = 'Invalid argument $key.';
+            throw new InvalidArgumentException($msg);
+        }
+
+        $data = &$this->getRequestData();
+        
+        if (!array_key_exists($key, $data[$global])) {
+            $msg = 'Parameter could not be found.';
+            throw new RuntimeException($msg);
+        }
+
+        return $data[$global][$key];
+    }
+
+    /**
+     * Sets Request data
+     * @param $global See ::getRequestParam
+     * @param $key    See ::getRequestParam
+     * @param $value
+     * @return null
+     */
+    private function setRequestParam($global = null, $key = null, $value = null) {
+        if ($global === null) {
+            $msg = 'Invalid argument $global.';
+            throw new InvalidArgumentException($msg);
+        }
+        
+        if ($key === null) {
+            $msg = 'Invalid argument $key.';
+            throw new InvalidArgumentException($msg);
+        }
+        
+        $data = &$this->getRequestData();
+        
+        if (!in_array($global, array_keys($data))) {
+            $msg = 'Invalid $global value.';
+            throw new InvalidArgumentException($msg);
+        }
+        
+        $data[$global][$key] = $value;
+        return;
+    }
+
 }
