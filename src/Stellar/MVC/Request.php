@@ -141,7 +141,7 @@ class Request implements RequestInterface {
         
         return $this->data('post', func_get_args());
     }
-    
+     
     /**
      * Getter and setter for $_SESSION data 
      * @param string Key name
