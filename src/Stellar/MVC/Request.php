@@ -122,26 +122,7 @@ class Request implements RequestInterface {
             $msg = 'Invalid number of arguments.';
             throw new InvalidArgumentException($msg);
         }
-        /*
-        $data = &$this->getRequestData();
-        
-        if ($argc === 1) {
-            $key = func_get_arg(0);
-
-            if (!array_key_exists($key, $data['get'])) {
-                $msg = 'Parameter could not be found.';
-                throw new RuntimeException($msg);
-            }
-
-            return $data['get'][$key];
-        } else if ($argc === 2) {
-            $key   = func_get_arg(0);
-            $value = func_get_arg(1);
-
-            $data['get'][$key] = $value;
-            return;
-        }*/
-        
+       
         $key   = func_get_arg(0);
         
         if ($argc === 1) {
@@ -186,6 +167,47 @@ class Request implements RequestInterface {
             $value = func_get_arg(1);
             
             $this->setRequestParam('post', $key, $value);
+            return;
+        }
+    }
+    
+    /**
+     * TODO: Docme!
+     */
+    public function session() {
+        return $this->data('session', fun_get_args());
+    }
+
+    /**
+     * TODO: Docme! 
+     */
+    private function data($global = null, $params = array()) {
+        if ($global === null) {
+            $msg = '$global not set.';
+            throw new InvalidArgumentException($msg);
+        }
+        
+        $valid_globals = array('get', 'post', 'cookie', 'files', 'server');
+        if (!in_array($global, $valid_globals)) {
+            $msg = '$global not valid.';
+            throw new InvalidArgumentException($msg);
+        }
+
+        $argc = func_num_args();
+        
+        if ($argc > 3 || $argc < 2) {
+            $msg = 'Invalid number of arguments.';
+            throw new InvalidArgumentException($msg);
+        }
+    
+        $key = func_get_arg(1);
+        
+        if ($argc === 2) {
+            return $this->getRequestParam($global, $key);
+        } else if ($argc === 3) {
+            $value = func_get_arg(2);
+            
+            $this->setRequestParam($global, $key, $value);
             return;
         }
     }
