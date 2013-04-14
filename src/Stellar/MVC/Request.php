@@ -122,32 +122,12 @@ class Request implements RequestInterface {
             $msg = 'Invalid number of arguments.';
             throw new InvalidArgumentException($msg);
         }
-       
-        $key   = func_get_arg(0);
-        
-        if ($argc === 1) {
-            return $this->getRequestParam('get', $key);
-        } else if ($argc === 2) {
-            $value = func_get_arg(1);
-            
-            $this->setRequestParam('get', $key, $value);
-            return;
-        }
+         
+        return $this->data('get', func_get_args());
     }
 
     /**
-     * This method has a little bit of magic inside.
-     * It has variable parameters. If the parameter 1 is 
-     * provided, we will return the value from the $requestData array.
-     * If we have param1 and param2 passed then we will set the param2 as
-     * the value of the para1 key in the $requestData array.
-     * 
-     * example:
-     *      $req = new Request();
-     *      print $req->post('name'); // prints out the value of $_POST['name']
-     *
-     *      $req->post('name', 'Vladimir') // sets the value of $_POST['name'] to 'Vladimir';
-     *      
+     * Getter and setter for $_POST data 
      * @param string Key name
      * @param mixed  Value
      * @return null | mixed
@@ -158,28 +138,79 @@ class Request implements RequestInterface {
             $msg = 'Invalid number of arguments.';
             throw new InvalidArgumentException($msg);
         }
-    
-        $key   = func_get_arg(0);
         
-        if ($argc === 1) {
-            return $this->getRequestParam('post', $key);
-        } else if ($argc === 2) {
-            $value = func_get_arg(1);
-            
-            $this->setRequestParam('post', $key, $value);
-            return;
-        }
+        return $this->data('post', func_get_args());
     }
     
     /**
-     * TODO: Docme!
+     * Getter and setter for $_SESSION data 
+     * @param string Key name
+     * @param mixed  Value
+     * @return null | mixed
      */
     public function session() {
-        return $this->data('session', fun_get_args());
+        $argc = func_num_args();
+        if ($argc > 2 || $argc < 1) {
+            $msg = 'Invalid number of arguments.';
+            throw new InvalidArgumentException($msg);
+        }
+        
+        return $this->data('session', func_get_args());
     }
 
     /**
-     * TODO: Docme! 
+     * Getter and setter for $_COOKIE data 
+     * @param string Key name
+     * @param mixed  Value
+     * @return null | mixed
+     */
+    public function cookie() {
+        $argc = func_num_args();
+        if ($argc > 2 || $argc < 1) {
+            $msg = 'Invalid number of arguments.';
+            throw new InvalidArgumentException($msg);
+        }
+        
+        return $this->data('cookie', func_get_args());
+    }
+    
+    /**
+     * Getter and setter for $_FILES data 
+     * @param string Key name
+     * @param mixed  Value
+     * @return null | mixed
+     */
+    public function files() {
+        $argc = func_num_args();
+        if ($argc > 2 || $argc < 1) {
+            $msg = 'Invalid number of arguments.';
+            throw new InvalidArgumentException($msg);
+        }
+        
+        return $this->data('files', func_get_args());
+    }
+
+    /**
+     * Getter and setter for $_SERVER data 
+     * @param string Key name
+     * @param mixed  Value
+     * @return null | mixed
+     */
+    public function server() {
+        $argc = func_num_args();
+        if ($argc > 2 || $argc < 1) {
+            $msg = 'Invalid number of arguments.';
+            throw new InvalidArgumentException($msg);
+        }
+        
+        return $this->data('server', func_get_args());
+    }
+
+    /**
+     * Getter and setter for $this->requestData
+     * @param string $global Key that represents one of the globals $_GET $_POST $_COOKIE
+     * @param array  $params Key and value needed for setting/getting globals
+     * @return mixed
      */
     private function data($global = null, $params = array()) {
         if ($global === null) {
@@ -193,19 +224,13 @@ class Request implements RequestInterface {
             throw new InvalidArgumentException($msg);
         }
 
-        $argc = func_num_args();
+        $argc = count($params);
+        $key = $params[0];
         
-        if ($argc > 3 || $argc < 2) {
-            $msg = 'Invalid number of arguments.';
-            throw new InvalidArgumentException($msg);
-        }
-    
-        $key = func_get_arg(1);
-        
-        if ($argc === 2) {
+        if ($argc === 1) {
             return $this->getRequestParam($global, $key);
-        } else if ($argc === 3) {
-            $value = func_get_arg(2);
+        } else if ($argc === 2) {
+            $value = $params[1];
             
             $this->setRequestParam($global, $key, $value);
             return;
