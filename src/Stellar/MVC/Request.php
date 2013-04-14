@@ -218,7 +218,7 @@ class Request implements RequestInterface {
             throw new InvalidArgumentException($msg);
         }
         
-        $valid_globals = array('get', 'post', 'cookie', 'files', 'server');
+        $valid_globals = array('get', 'post', 'cookie', 'files', 'server', 'session');
         if (!in_array($global, $valid_globals)) {
             $msg = '$global not valid.';
             throw new InvalidArgumentException($msg);

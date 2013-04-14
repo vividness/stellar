@@ -165,4 +165,189 @@ class RequestTest extends StellarTestCase {
         
         $req->get('totallyOff');
     }
+
+    /**
+     * @test
+     * @depends createRequest
+     */
+    public function postThrowsException(RequestInterface $req) {
+        $exception = 'InvalidArgumentException';
+        $this->setExpectedException($exception);
+        
+        $req->post();
+    }
+
+    /**
+     * @test
+     * @depends createRequest
+     */
+    public function postMethod() {
+        $req = new Request();
+        $req->post('name', 'Vladimir');
+        
+        $expected = 'Vladimir';
+        $returnVal = $req->post('name');
+
+        $this->assertEquals($expected, $returnVal);
+        return $req;
+    }
+
+    /**
+     * @test 
+     * @depends postMethod
+     */
+    public function postMethodThrowsException(RequestInterface $req) {
+        $exception = 'RuntimeException';
+        $this->setExpectedException($exception);
+        
+        $req->post('totallyOff');
+    }
+
+    /**
+     * @test
+     * @depends createRequest
+     */
+    public function sessionThrowsException(RequestInterface $req) {
+        $exception = 'InvalidArgumentException';
+        $this->setExpectedException($exception);
+        
+        $req->session();
+    }
+
+    /**
+     * @test
+     * @depends createRequest
+     */
+    public function sessionMethod() {
+        $req = new Request();
+        $req->session('name', 'Vladimir');
+        
+        $expected = 'Vladimir';
+        $returnVal = $req->session('name');
+
+        $this->assertEquals($expected, $returnVal);
+        return $req;
+    }
+
+    /**
+     * @test 
+     * @depends sessionMethod
+     */
+    public function sessionMethodThrowsException(RequestInterface $req) {
+        $exception = 'RuntimeException';
+        $this->setExpectedException($exception);
+        
+        $req->session('totallyOff');
+    }
+
+    /**
+     * @test
+     * @depends createRequest
+     */
+    public function cookieThrowsException(RequestInterface $req) {
+        $exception = 'InvalidArgumentException';
+        $this->setExpectedException($exception);
+        
+        $req->cookie();
+    }
+
+    /**
+     * @test
+     * @depends createRequest
+     */
+    public function cookieMethod() {
+        $req = new Request();
+        $req->cookie('name', 'Vladimir');
+        
+        $expected = 'Vladimir';
+        $returnVal = $req->cookie('name');
+
+        $this->assertEquals($expected, $returnVal);
+        return $req;
+    }
+
+    /**
+     * @test 
+     * @depends cookieMethod
+     */
+    public function cookieMethodThrowsException(RequestInterface $req) {
+        $exception = 'RuntimeException';
+        $this->setExpectedException($exception);
+        
+        $req->cookie('totallyOff');
+    }
+
+    /**
+     * @test
+     * @depends createRequest
+     */
+    public function filesThrowsException(RequestInterface $req) {
+        $exception = 'InvalidArgumentException';
+        $this->setExpectedException($exception);
+        
+        $req->files();
+    }
+
+    /**
+     * @test
+     * @depends createRequest
+     */
+    public function filesMethod() {
+        $req = new Request();
+        $req->files('name', 'Vladimir');
+        
+        $expected = 'Vladimir';
+        $returnVal = $req->files('name');
+
+        $this->assertEquals($expected, $returnVal);
+        return $req;
+    }
+
+    /**
+     * @test 
+     * @depends filesMethod
+     */
+    public function filesMethodThrowsException(RequestInterface $req) {
+        $exception = 'RuntimeException';
+        $this->setExpectedException($exception);
+        
+        $req->files('totallyOff');
+    }
+
+    /**
+     * @test
+     * @depends createRequest
+     */
+    public function serverThrowsException(RequestInterface $req) {
+        $exception = 'InvalidArgumentException';
+        $this->setExpectedException($exception);
+        
+        $req->server();
+    }
+
+    /**
+     * @test
+     * @depends createRequest
+     */
+    public function serverMethod() {
+        $req = new Request();
+        $req->server('name', 'Vladimir');
+        
+        $expected = 'Vladimir';
+        $returnVal = $req->server('name');
+
+        $this->assertEquals($expected, $returnVal);
+        return $req;
+    }
+
+    /**
+     * @test 
+     * @depends serverMethod
+     */
+    public function serverMethodThrowsException(RequestInterface $req) {
+        $exception = 'RuntimeException';
+        $this->setExpectedException($exception);
+        
+        $req->server('totallyOff');
+    }
 }
