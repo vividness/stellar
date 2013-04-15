@@ -64,7 +64,7 @@ class Application {
                   ->addParam('Dispatcher', $dispatcher);
          
         $dispatcher->dispatch($container);
-
+        
         return;
     }
 
