@@ -37,7 +37,38 @@ interface RequestInterface {
     public function &getRequestData();
 
     /**
-     * 
+     * Read-write $_GET
+     * @return mixed | null 
      */
     public function get();
+    
+    /**
+     * Read-write $_POST
+     * @return mixed | null
+     */
+    public function post();
+    
+    /**
+     * Read-write $_SESSION
+     * @return mixed | null
+     */
+    public function session();
+    
+    /**
+     * Read-write $_COOKIE
+     * @return mixed | null 
+     */
+    public function cookie();
+    
+    /**
+     * Read $_FILES 
+     * @return mixed
+     */
+    public function files();
+    
+    /**
+     * Read $_SERVER variable
+     * @return mixed
+     */
+    public function server();
 }
